@@ -14,6 +14,7 @@ export default defineConfig({
       "@apis": path.resolve(__dirname, "src/apis"),
     },
   },
+  base: "./",
   server: {
     hmr: true,
   },
