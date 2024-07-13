@@ -69,6 +69,7 @@ jobs:
     needs:
       - test
       - analyze
+      - lint
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
