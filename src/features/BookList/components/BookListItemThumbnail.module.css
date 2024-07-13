@@ -1,0 +1,22 @@
+
+.thumbnail {
+  aspect-ratio: 1 / 1;
+  display: block;
+}
+
+.thumbnailImg {
+  display: block;
+  width: 100%;
+  object-fit: contain;
+  border: 1px solid #ddd;
+}
+
+.dummy-thumbnail-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 1 / 1.41;
+  background-color: #ddd;
+  font-size: 0.8rem;
+}
