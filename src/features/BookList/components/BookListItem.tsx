@@ -16,6 +16,12 @@ interface Props {
   book: Book;
 }
 
+function additionalInfoToString(additionalInfo: string[]): string {
+  if (additionalInfo.length === 0) return "";
+
+  return `(${additionalInfo.join("; ")})`;
+}
+
 export function BookListItem({ book }: Readonly<Props>) {
   const { isbn, authors } = book;
 
@@ -23,6 +29,8 @@ export function BookListItem({ book }: Readonly<Props>) {
   const priceWithTax = book.price
     ? `${Math.floor(book.price * (SALES_TAX_RATE + 1))}円`
     : "金額不明";
+
+  const additionalInfo = additionalInfoToString(book.additionalInfo);
 
   return (
     <div className={container}>
@@ -32,7 +40,7 @@ export function BookListItem({ book }: Readonly<Props>) {
       <div className={centerColumn}>
         <div className={title}>
           <a className={titleLink} href={linkToBookOrJp}>
-            {book.title}
+            {book.title} {additionalInfo}
           </a>
         </div>
         <div>{authors == null ? "著者不明" : authors.join(", ")}</div>
@@ -45,13 +53,7 @@ export function BookListItem({ book }: Readonly<Props>) {
           <div>ISBN: {isbn}</div>
         </div>
       </div>
-      <div className={rightColumn}>
-        <div>
-          {/* <a href={linkToBookOrJp} target="_blank" rel="noreferrer">
-            本の詳細
-          </a> */}
-        </div>
-      </div>
+      <div className={rightColumn} />
     </div>
   );
 }
