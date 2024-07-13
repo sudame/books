@@ -1,7 +1,7 @@
+import type { TinyBook } from "@models";
 import { Suspense } from "react";
-import { BookListItem } from "./BookListItem";
 import { listItemWrapper } from "./BookList.module.css";
-import { TinyBook } from "@models";
+import { BookListItem } from "./BookListItem";
 
 interface Props {
   books: TinyBook[];
