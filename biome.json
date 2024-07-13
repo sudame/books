@@ -14,6 +14,11 @@
     }
   },
   "files": {
-    "ignore": ["tsconfig.*.json", "node_modules", "dist"]
+    "ignore": [
+      "tsconfig.*.json",
+      "node_modules",
+      "dist",
+      "**/*.module.css.d.ts"
+    ]
   }
 }
