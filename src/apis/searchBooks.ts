@@ -65,7 +65,28 @@ function extractIsbn(bookElement: Element): string | null {
 }
 
 function extractTitle(bookElement: Element): string | null {
-  return bookElement.getElementsByTagName("dc:title")?.[0]?.textContent ?? null;
+  const title =
+    bookElement.getElementsByTagName("dc:title")?.[0]?.textContent ?? null;
+
+  if (title == null) return null;
+
+  let volume =
+    bookElement.getElementsByTagName("dcndl:volume")?.[0]?.textContent ?? null;
+
+  if (Number.isInteger(Number.parseInt(volume ?? ""))) {
+    volume = `第${volume}巻`;
+  }
+
+  const edition =
+    bookElement.getElementsByTagName("dcndl:edition")?.[0]?.textContent ?? null;
+
+  const additionalInfo = [edition, volume]
+    .filter((el) => el !== null)
+    .join("; ");
+
+  if (additionalInfo === "") return title;
+
+  return `${title} (${additionalInfo})`;
 }
 
 function extractIsPaperBook(bookElement: Element): boolean {
