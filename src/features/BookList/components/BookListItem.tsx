@@ -1,6 +1,4 @@
-import { getBook } from "@apis";
-import type { Book, TinyBook } from "@models";
-import { useQuery } from "@tanstack/react-query";
+import type { Book } from "@models";
 import { SALES_TAX_RATE } from "../../../const";
 import {
   centerColumn,
@@ -11,38 +9,17 @@ import {
   leftColumn,
   rightColumn,
   thumbnail,
-  thumbnailImg,
+  // thumbnailImg,
   title,
   titleLink,
 } from "./BookListItem.module.css";
 
 interface Props {
-  tinyBook: TinyBook;
+  book: Book;
 }
 
-export function BookListItem({ tinyBook }: Readonly<Props>) {
-  const { isbn } = tinyBook;
-
-  const { data: book } = useQuery({
-    queryKey: ["book", isbn],
-    queryFn: async () => {
-      const book = await getBook(isbn);
-      if (book == null) {
-        return {
-          title: tinyBook.title,
-          authors: tinyBook.authors,
-          price: null,
-          dateOfIssue: "不明",
-        } as Book;
-      }
-      return book;
-    },
-    throwOnError: true,
-    staleTime: Number.POSITIVE_INFINITY,
-    refetchOnWindowFocus: false,
-  });
-
-  if (book == null) return null;
+export function BookListItem({ book }: Readonly<Props>) {
+  const { isbn, authors } = book;
 
   const linkToBookOrJp = `https://www.books.or.jp/book-details/${isbn}`;
   const priceWithTax = book.price
@@ -53,15 +30,7 @@ export function BookListItem({ tinyBook }: Readonly<Props>) {
     <div className={container}>
       <div className={leftColumn}>
         <div className={thumbnail}>
-          {tinyBook.thumbnailUrl ? (
-            <img
-              className={thumbnailImg}
-              src={tinyBook.thumbnailUrl}
-              alt={book.title}
-            />
-          ) : (
-            <div className={dummyThumbnailImg}>画像なし</div>
-          )}
+          <div className={dummyThumbnailImg}>画像なし</div>
         </div>
       </div>
       <div className={centerColumn}>
@@ -70,7 +39,7 @@ export function BookListItem({ tinyBook }: Readonly<Props>) {
             {book.title}
           </a>
         </div>
-        <div>{book.authors.join(", ")}</div>
+        <div>{authors == null ? "著者不明" : authors.join(", ")}</div>
         <div className={detailMetaDesktop}>
           出版: {book.dateOfIssue} / 税込み価格: {priceWithTax}
         </div>
