@@ -131,15 +131,14 @@ function dropDuplicateBooks(books: Book[]): Book[] {
 export function sortBooks(query: string, books: Book[]): Book[] {
   const queryWords = query.split(" ");
   return books.toSorted((a, b) => {
-    const aTitle = a.title.toLowerCase();
-    const bTitle = b.title.toLowerCase();
-
     const aScore = queryWords.reduce(
-      (acc, word) => acc - distance(aTitle, word),
+      (acc, word) =>
+        acc - distance(a.title, word) - distance(a.authors?.join() ?? "", word),
       0,
     );
     const bScore = queryWords.reduce(
-      (acc, word) => acc - distance(bTitle, word),
+      (acc, word) =>
+        acc - distance(b.title, word) - distance(b.authors?.join() ?? "", word),
       0,
     );
 
