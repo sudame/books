@@ -12,7 +12,7 @@ import {
   titleLink,
   detailMetaDesktop,
   detailMetaMobile,
-} from "./BookListItem.css";
+} from "./BookListItem.module.css";
 import { SALES_TAX_RATE } from "../../../const";
 import { TinyBook, Book } from "@models";
 

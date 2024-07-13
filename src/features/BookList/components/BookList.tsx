@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { BookListItem } from "./BookListItem";
-import { listItemWrapper } from "./BookList.css";
+import { listItemWrapper } from "./BookList.module.css";
 import { TinyBook } from "@models";
 
 interface Props {
