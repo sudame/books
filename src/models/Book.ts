@@ -4,4 +4,6 @@ export interface Book {
   authors: string[] | null;
   price: number | null;
   dateOfIssue: string | null;
+
+  additionalInfo: string[];
 }

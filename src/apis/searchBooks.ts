@@ -76,12 +76,27 @@ function extractIsPaperBook(bookElement: Element): boolean {
   return categories.includes("紙");
 }
 
+function extractAdditionalInfo(bookElement: Element): string[] {
+  let volume =
+    bookElement.getElementsByTagName("dcndl:volume")?.[0]?.textContent ?? null;
+
+  if (Number.isInteger(Number.parseInt(volume ?? ""))) {
+    volume = `第${volume}巻`;
+  }
+
+  const edition =
+    bookElement.getElementsByTagName("dcndl:edition")?.[0]?.textContent ?? null;
+
+  return [edition, volume].filter((el) => el !== null);
+}
+
 function xmlDocToBook(bookElement: Element): Book | null {
   const isbn = extractIsbn(bookElement);
   const title = extractTitle(bookElement);
   const authors = extractAuthors(bookElement);
   const price = extractPrice(bookElement);
   const dateOfIssue = extractDateOfIssue(bookElement);
+  const additionalInfo = extractAdditionalInfo(bookElement);
 
   if (isbn == null || title == null) return null;
 
@@ -91,6 +106,7 @@ function xmlDocToBook(bookElement: Element): Book | null {
     authors,
     price,
     dateOfIssue,
+    additionalInfo,
   };
 }
 
