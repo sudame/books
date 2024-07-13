@@ -7,12 +7,18 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "run-p -l watch:*",
-    "watch:vite": "vite",
+    "----watch----": "",
+    "watch": "run-p -l watch:*",
     "watch:tcm": "tcm src -e -w -c",
-    "build": "tcm src -e -c && tsc -b && vite build",
+    "watch:vite": "vite",
+    "----build----": "",
+    "build": "run-s build:*",
+    "build:tcm": "tcm src -e -c",
+    "build:vite": "vite build",
+    "----lints---": "",
     "type-check": "tsc -b",
     "lint": "biome check",
+    "----tests----": "",
     "preview": "vite preview",
     "test": "vitest"
   },
