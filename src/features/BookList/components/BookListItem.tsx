@@ -1,18 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getBook } from "@apis";
-import {
-  container,
-  dummyThumbnailImg,
-  leftColumn,
-  centerColumn,
-  thumbnail,
-  thumbnailImg,
-  title,
-  rightColumn,
-  titleLink,
-  detailMetaDesktop,
-  detailMetaMobile,
-} from "./BookListItem.css";
+import styles from "./BookListItem.module.css";
 import { SALES_TAX_RATE } from "../../../const";
 import { TinyBook, Book } from "@models";
 
@@ -50,36 +38,36 @@ export function BookListItem({ tinyBook }: Readonly<Props>) {
     : "金額不明";
 
   return (
-    <div className={container}>
-      <div className={leftColumn}>
-        <div className={thumbnail}>
+    <div className={styles.container}>
+      <div className={styles.leftColumn}>
+        <div className={styles.thumbnail}>
           {tinyBook.thumbnailUrl ? (
             <img
-              className={thumbnailImg}
+              className={styles.thumbnailImg}
               src={tinyBook.thumbnailUrl}
               alt={book.title}
             />
           ) : (
-            <div className={dummyThumbnailImg}>画像なし</div>
+            <div className={styles.dummyThumbnailImg}>画像なし</div>
           )}
         </div>
       </div>
-      <div className={centerColumn}>
-        <div className={title}>
-          <a className={titleLink} href={linkToBookOrJp}>
+      <div className={styles.centerColumn}>
+        <div className={styles.title}>
+          <a className={styles.titleLink} href={linkToBookOrJp}>
             {book.title}
           </a>
         </div>
         <div>{book.authors.join(", ")}</div>
-        <div className={detailMetaDesktop}>
+        <div className={styles.detailMetaDesktop}>
           出版: {book.dateOfIssue} / 税込み価格: {priceWithTax}
         </div>
-        <div className={detailMetaMobile}>
+        <div className={styles.detailMetaMobile}>
           <div>出版: {book.dateOfIssue}</div>
           <div>税込み価格: {priceWithTax}</div>
         </div>
       </div>
-      <div className={rightColumn}>
+      <div className={styles.rightColumn}>
         <div>
           {/* <a href={linkToBookOrJp} target="_blank" rel="noreferrer">
             本の詳細
