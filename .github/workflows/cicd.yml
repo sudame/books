@@ -49,16 +49,28 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
+          config-file: .github/codeql/codeql-config-on-pr.yml
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
         with:
           category: "/language:${{matrix.language}}"
 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: "package.json"
+      - run: npm ci
+      - run: npm run lint
+
   deploy:
     needs:
       - test
       - analyze
+      - lint
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
