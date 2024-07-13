@@ -67,7 +67,7 @@ function extractDateOfIssue(bookElement: Element) {
 
 function extractIsbn(bookElement: Element): string | null {
   const isbnWithHyphen = Array.from(
-    bookElement.getElementsByTagName(`dc:identifier`)
+    bookElement.getElementsByTagName(`dc:identifier`),
   ).filter((element) => element.getAttribute("xsi:type") === "dcndl:ISBN")?.[0]
     ?.textContent;
 
@@ -118,7 +118,7 @@ function parseXmlDoc(doc: Document): Book[] {
 
 export function searchBooks(query: string): Promise<Book[]> {
   return fetch(
-    `https://ndlsearch.ndl.go.jp/api/opensearch?any=${query}&mediatype=books`
+    `https://ndlsearch.ndl.go.jp/api/opensearch?any=${query}&mediatype=books`,
   )
     .then((response) => response.text())
     .then((xmlText) => domParser.parseFromString(xmlText, "text/xml"))

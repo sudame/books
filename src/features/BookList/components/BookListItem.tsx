@@ -1,20 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
 import { getBook } from "@apis";
+import type { Book, TinyBook } from "@models";
+import { useQuery } from "@tanstack/react-query";
+import { SALES_TAX_RATE } from "../../../const";
 import {
+  centerColumn,
   container,
+  detailMetaDesktop,
+  detailMetaMobile,
   dummyThumbnailImg,
   leftColumn,
-  centerColumn,
+  rightColumn,
   thumbnail,
   thumbnailImg,
   title,
-  rightColumn,
   titleLink,
-  detailMetaDesktop,
-  detailMetaMobile,
-} from "./BookListItem.css";
-import { SALES_TAX_RATE } from "../../../const";
-import { TinyBook, Book } from "@models";
+} from "./BookListItem.module.css";
 
 interface Props {
   tinyBook: TinyBook;
@@ -46,7 +46,7 @@ export function BookListItem({ tinyBook }: Readonly<Props>) {
 
   const linkToBookOrJp = `https://www.books.or.jp/book-details/${isbn}`;
   const priceWithTax = book.price
-    ? Math.floor(book.price * (SALES_TAX_RATE + 1)) + "円"
+    ? `${Math.floor(book.price * (SALES_TAX_RATE + 1))}円`
     : "金額不明";
 
   return (
