@@ -41,11 +41,12 @@ export function BookListItem({ book }: Readonly<Props>) {
         </div>
         <div>{authors == null ? "著者不明" : authors.join(", ")}</div>
         <div className={detailMetaDesktop}>
-          出版: {book.dateOfIssue} / 税込み価格: {priceWithTax}
+          出版: {book.dateOfIssue} / 税込み価格: {priceWithTax} / ISBN: {isbn}
         </div>
         <div className={detailMetaMobile}>
           <div>出版: {book.dateOfIssue}</div>
           <div>税込み価格: {priceWithTax}</div>
+          <div>ISBN: {isbn}</div>
         </div>
       </div>
       <div className={rightColumn}>

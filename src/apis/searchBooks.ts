@@ -1,7 +1,6 @@
 import type { Book } from "@models";
+import { distance } from "fastest-levenshtein";
 import { commaSeparatedNameToName } from "./tools";
-
-const domParser = new DOMParser();
 
 export function convertIsbn10ToIsbn13(isbn10: string): string {
   const isbn10Array = isbn10.split("").map(Number);
@@ -103,11 +102,61 @@ function parseXmlDoc(doc: Document): Book[] {
     .filter((book) => book != null);
 }
 
+function dropDuplicateBooks(books: Book[]): Book[] {
+  const uniqueBooks = new Map<string, Book>();
+
+  for (const book of books) {
+    uniqueBooks.set(book.isbn, book);
+  }
+
+  return Array.from(uniqueBooks.values());
+}
+
+export function sortBooks(query: string, books: Book[]): Book[] {
+  const queryWords = query.split(" ");
+  return books.toSorted((a, b) => {
+    const aTitle = a.title.toLowerCase();
+    const bTitle = b.title.toLowerCase();
+
+    const aScore = queryWords.reduce(
+      (acc, word) => acc - distance(aTitle, word),
+      0,
+    );
+    const bScore = queryWords.reduce(
+      (acc, word) => acc - distance(bTitle, word),
+      0,
+    );
+
+    const scoreDiff = bScore - aScore;
+
+    if (scoreDiff !== 0) return scoreDiff;
+
+    const aPublishDateString =
+      a.dateOfIssue?.replaceAll(/[年,月,日]/g, "/") ?? 0;
+    const bPublishDateString =
+      b.dateOfIssue?.replaceAll(/[年,月,日]/g, "/") ?? 0;
+
+    const aPublishDateTime = new Date(aPublishDateString).getTime();
+    const bPublishDateTime = new Date(bPublishDateString).getTime();
+
+    return bPublishDateTime - aPublishDateTime;
+  });
+}
+
+function dropTooManyBooks(books: Book[], max: number): Book[] {
+  return books.slice(0, max);
+}
+
 export function searchBooks(query: string): Promise<Book[]> {
+  const domParser = new DOMParser();
+
   return fetch(
     `https://ndlsearch.ndl.go.jp/api/opensearch?any=${query}&mediatype=books`,
   )
     .then((response) => response.text())
     .then((xmlText) => domParser.parseFromString(xmlText, "text/xml"))
-    .then(parseXmlDoc);
+    .then(parseXmlDoc)
+    .then(dropDuplicateBooks)
+    .then((books) => sortBooks(query, books))
+    .then((books) => dropTooManyBooks(books, 15));
 }
