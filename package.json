@@ -9,8 +9,8 @@
   "scripts": {
     "dev": "run-p -l watch:*",
     "watch:vite": "vite",
-    "watch:tcm": "tcm src -w -c",
-    "build": "tcm src -c && tsc -b && vite build",
+    "watch:tcm": "tcm src -e -w -c",
+    "build": "tcm src -e -c && tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest"
