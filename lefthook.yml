@@ -1,5 +1,8 @@
 pre-commit:
   commands:
-    check:
+    biome-check:
       glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
       run: npx @biomejs/biome check {staged_files}
+    type-check:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: npx tsc -b --noEmit {staged_files}
