@@ -1,8 +1,7 @@
-import { Book } from "@models";
+import type { Book } from "@models";
+import { commaSeparatedNameToName } from "./tools";
 
 const domParser = new DOMParser();
-const startsWithNumberTester = /^\d/;
-const japaneseWordTester = /^[\p{scx=Hiragana}\p{scx=Katakana}\p{scx=Han}]+$/u;
 
 export function convertIsbn10ToIsbn13(isbn10: string): string {
   const isbn10Array = isbn10.split("").map(Number);
@@ -12,19 +11,6 @@ export function convertIsbn10ToIsbn13(isbn10: string): string {
     .reduce((acc, current) => acc + current, 0);
   const checkDigit = (10 - (sum % 10)) % 10;
   return isbn13Array.concat(checkDigit).join("");
-}
-
-export function commaSeparatedNameToName(commaSeparatedName: string) {
-  const nameParts = commaSeparatedName
-    .split(",")
-    .map((part) => part.trim())
-    .filter((part) => !startsWithNumberTester.test(part));
-
-  if (japaneseWordTester.test(nameParts[0])) {
-    return nameParts.join("");
-  }
-
-  return nameParts.toReversed().join(" ");
 }
 
 function extractAuthors(bookElement: Element) {
@@ -67,7 +53,7 @@ function extractDateOfIssue(bookElement: Element) {
 
 function extractIsbn(bookElement: Element): string | null {
   const isbnWithHyphen = Array.from(
-    bookElement.getElementsByTagName(`dc:identifier`),
+    bookElement.getElementsByTagName("dc:identifier"),
   ).filter((element) => element.getAttribute("xsi:type") === "dcndl:ISBN")?.[0]
     ?.textContent;
 
@@ -91,12 +77,14 @@ function extractIsPaperBook(bookElement: Element): boolean {
   return categories.includes("紙");
 }
 
-function xmlDocToBook(bookElement: Element): Book {
-  const isbn = extractIsbn(bookElement)!;
-  const title = extractTitle(bookElement)!;
+function xmlDocToBook(bookElement: Element): Book | null {
+  const isbn = extractIsbn(bookElement);
+  const title = extractTitle(bookElement);
   const authors = extractAuthors(bookElement);
   const price = extractPrice(bookElement);
   const dateOfIssue = extractDateOfIssue(bookElement);
+
+  if (isbn == null || title == null) return null;
 
   return {
     isbn,
@@ -111,9 +99,8 @@ function parseXmlDoc(doc: Document): Book[] {
   const bookElements = Array.from(doc.getElementsByTagName("item"));
   return bookElements
     .filter(extractIsPaperBook)
-    .filter((el) => extractTitle(el) != null)
-    .filter((el) => extractIsbn(el) != null)
-    .map((bookElement) => xmlDocToBook(bookElement));
+    .map((bookElement) => xmlDocToBook(bookElement))
+    .filter((book) => book != null);
 }
 
 export function searchBooks(query: string): Promise<Book[]> {

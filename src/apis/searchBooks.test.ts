@@ -11,8 +11,6 @@ test("searchBooks", async () => {
   const titles = books.map((book) => book.title);
   const isbns = books.map((book) => book.isbn);
 
-  console.log(books);
-
   expect(titles).toBeInstanceOf(Array);
   expect(titles[0]).toBeTypeOf("string");
 

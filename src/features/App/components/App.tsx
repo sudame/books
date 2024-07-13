@@ -1,10 +1,10 @@
 import { BookList } from "@features/BookList";
 import { SearchBooks } from "@features/SearchBooks";
-import type { TinyBook } from "@models";
+import type { Book } from "@models";
 import { useState } from "react";
 
 export function App() {
-  const [books, setBooks] = useState<TinyBook[]>([]);
+  const [books, setBooks] = useState<Book[]>([]);
   return (
     <div>
       <SearchBooks onSearched={setBooks} />

@@ -1,10 +1,10 @@
-import type { TinyBook } from "@models";
+import type { Book } from "@models";
 import { Suspense } from "react";
 import { listItemWrapper } from "./BookList.module.css";
 import { BookListItem } from "./BookListItem";
 
 interface Props {
-  books: TinyBook[];
+  books: Book[];
 }
 
 export function BookList({ books }: Readonly<Props>) {
@@ -13,7 +13,7 @@ export function BookList({ books }: Readonly<Props>) {
       {books.map((book) => (
         <Suspense key={book.isbn} fallback="Loading...">
           <div className={listItemWrapper}>
-            <BookListItem tinyBook={book} />
+            <BookListItem book={book} />
           </div>
         </Suspense>
       ))}
