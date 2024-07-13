@@ -11,6 +11,7 @@
     "watch:vite": "vite",
     "watch:tcm": "tcm src -e -w -c",
     "build": "tcm src -e -c && tsc -b && vite build",
+    "type-check": "tsc -b",
     "lint": "biome check",
     "preview": "vite preview",
     "test": "vitest"
