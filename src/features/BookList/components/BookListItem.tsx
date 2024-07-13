@@ -1,17 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { getBook } from "@apis";
 import {
-  centerColumn,
   container,
-  detailMetaDesktop,
-  detailMetaMobile,
   dummyThumbnailImg,
   leftColumn,
-  rightColumn,
+  centerColumn,
   thumbnail,
   thumbnailImg,
   title,
+  rightColumn,
   titleLink,
+  detailMetaDesktop,
+  detailMetaMobile,
 } from "./BookListItem.module.css";
 import { SALES_TAX_RATE } from "../../../const";
 import { TinyBook, Book } from "@models";
