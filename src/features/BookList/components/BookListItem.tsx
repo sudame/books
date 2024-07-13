@@ -5,14 +5,12 @@ import {
   container,
   detailMetaDesktop,
   detailMetaMobile,
-  dummyThumbnailImg,
   leftColumn,
   rightColumn,
-  thumbnail,
-  // thumbnailImg,
   title,
   titleLink,
 } from "./BookListItem.module.css";
+import { Thumbnail } from "./BookListItemThumbnail";
 
 interface Props {
   book: Book;
@@ -29,9 +27,7 @@ export function BookListItem({ book }: Readonly<Props>) {
   return (
     <div className={container}>
       <div className={leftColumn}>
-        <div className={thumbnail}>
-          <div className={dummyThumbnailImg}>画像なし</div>
-        </div>
+        <Thumbnail isbn={isbn} />
       </div>
       <div className={centerColumn}>
         <div className={title}>
