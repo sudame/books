@@ -1,4 +1,4 @@
-import { TinyBook } from "../models/TinyBook";
+import type { TinyBook } from "../models/TinyBook";
 
 interface GoogleBook {
   volumeInfo: {
@@ -14,7 +14,7 @@ interface GoogleBook {
 
 function googleBookToBook(input: GoogleBook): TinyBook {
   const isbn = input.volumeInfo.industryIdentifiers?.find(
-    (id) => id.type === "ISBN_13"
+    (id) => id.type === "ISBN_13",
   )?.identifier;
 
   if (!isbn) {
@@ -38,7 +38,7 @@ function filterPaperBooks(books: GoogleBook[]): GoogleBook[] {
   return books.filter((book) => {
     return (
       book.volumeInfo.industryIdentifiers?.some(
-        (id) => id.type === "ISBN_13"
+        (id) => id.type === "ISBN_13",
       ) ?? false
     );
   });

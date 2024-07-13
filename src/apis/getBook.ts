@@ -1,4 +1,4 @@
-import { Book } from "../models/Book";
+import type { Book } from "../models/Book";
 
 const domParser = new DOMParser();
 const startsWithNumberTester = /^\d/;
@@ -19,7 +19,7 @@ export function commaSeparatedNameToName(commaSeparatedName: string) {
 
 function extractAuthors(doc: Document) {
   const creatorElements = Array.from(
-    doc.getElementsByTagName("dc:creator") ?? []
+    doc.getElementsByTagName("dc:creator") ?? [],
   );
   const creators = creatorElements
     .map((element) => element.textContent)

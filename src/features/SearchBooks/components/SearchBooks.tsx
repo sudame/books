@@ -1,7 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useRef, FormEvent } from "react";
 import { searchBooks } from "@apis";
-import { TinyBook } from "@models";
+import type { TinyBook } from "@models";
+import { useQueryClient } from "@tanstack/react-query";
+import { type FormEvent, useRef } from "react";
 
 interface Props {
   onSearched?: (books: TinyBook[]) => void;
@@ -32,7 +32,7 @@ export function SearchBooks({ onSearched }: Readonly<Props>) {
   return (
     <div>
       <form onSubmit={handleFormSubmit}>
-        <input type="text" ref={inputRef}></input>
+        <input type="text" ref={inputRef} />
         <button type="submit">Search</button>
       </form>
     </div>
